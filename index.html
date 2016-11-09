@@ -12,7 +12,7 @@
   var time = 0;
   Leap.loop(function (frame) {
     if (Date.now() - time > 33) {
-      if (frame.hands === [] {
+      if (frame.hands === []) {
         return;
       }
       var s = JSON.stringify(JSON.decycle(frame));
