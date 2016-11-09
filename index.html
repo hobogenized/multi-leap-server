@@ -1,0 +1,26 @@
+<script src="http://localhost:8000/socket.io/socket.io.js"></script>
+<script src="node_modules/leapjs/leap-0.6.4.js"></script>
+<script src="node_modules/json-js/cycle.js"></script>
+<script>
+  var socket = io.connect('http://172.16.234.136:8000');
+  /*
+  var arr = [];
+  socket.on('frame', function (data) {
+    console.log(arr.push(data));
+  });
+  */
+  var time = 0;
+  Leap.loop(function (frame) {
+    if (Date.now() - time > 33) {
+      if (frame.hands === [] {
+        return;
+      }
+      var s = JSON.stringify(JSON.decycle(frame));
+      //console.log(s);
+      socket.emit('frame', s);
+      time = Date.now();
+      cache = null;
+      console.log("now");
+    }
+  });
+</script>

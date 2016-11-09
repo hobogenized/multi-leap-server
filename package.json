@@ -1,0 +1,27 @@
+{
+  "name": "multi-leap-server",
+  "version": "1.0.0",
+  "description": "Node package for coordinating Leap motion controllers across a network",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel W. Zhang <dwz206@nyu.edu>",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0",
+    "http": "0.0.0",
+    "json-js": "^1.1.2",
+    "leapjs": "^0.6.4",
+    "socket.io": "^1.5.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hobogenized/multi-leap-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hobogenized/multi-leap-server/issues"
+  },
+  "homepage": "https://github.com/hobogenized/multi-leap-server#readme"
+}
