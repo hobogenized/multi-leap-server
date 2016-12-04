@@ -4,3 +4,6 @@ C:\Users\Abhinav\GIT\multi-leap-integration\LeapmotionIntegration\LeapmotionInte
 C:\Users\Abhinav\GIT\multi-leap-integration\LeapmotionIntegration\LeapmotionIntegration\obj\Debug\LeapmotionIntegration.csprojResolveAssemblyReference.cache
 C:\Users\Abhinav\GIT\multi-leap-integration\LeapmotionIntegration\LeapmotionIntegration\obj\Debug\LeapmotionIntegration.exe
 C:\Users\Abhinav\GIT\multi-leap-integration\LeapmotionIntegration\LeapmotionIntegration\obj\Debug\LeapmotionIntegration.pdb
+C:\Users\Abhinav\GIT\multi-leap-server\LeapmotionIntegration\LeapmotionIntegration\bin\Debug\LeapmotionIntegration.exe.config
+C:\Users\Abhinav\GIT\multi-leap-server\LeapmotionIntegration\LeapmotionIntegration\obj\Debug\LeapmotionIntegration.exe
+C:\Users\Abhinav\GIT\multi-leap-server\LeapmotionIntegration\LeapmotionIntegration\obj\Debug\LeapmotionIntegration.pdb

@@ -12,148 +12,120 @@ namespace LeapmotionIntegration
     {
         List<Controller> _listOfControllers;
 
-        ConsolidatedController(List<Controller> listOfControllers)
+        public ConsolidatedController(List<Controller> listOfControllers)
         {
             _listOfControllers = listOfControllers;
         }
 
-        //public Arm translateArm(Arm arm, Vector translation)
-        //{
-
-        //}
-
-        //public Finger translateFinger(Finger finger, Vector translation)
-        //{
-
-        //}
-
-        //public Hand translateHand(Hand hand, Vector translation)
-        //{
-
-        //}
-
-        //public List<List<Vector>> getPalmCoordinates(List<Frame> listOfFrames, List<Vector> centersOfLeapmotion)
-        //{
-        //    List<List<Vector>> palmCoordinates = new List<List<Vector>>();
-
-        //    int numberOfLeaps = centersOfLeapmotion.Count;
-
-        //    for (int leapNumber = 0; leapNumber < numberOfLeaps; leapNumber++)
-        //    {
-        //        palmCoordinates.Add(new List<Vector>());
-
-        //        List<Hand> hands = listOfFrames[leapNumber].Hands;
-        //        int numberOfHands = hands.Count;
-
-        //        for (int handNumber = 0; handNumber < numberOfHands; handNumber++)
-        //        {
-        //            Vector coordinatesOfPalm = listOfFrames[leapNumber].
-        //                                                        InteractionBox.
-        //                                                        DenormalizePoint(
-        //                                                            hands[handNumber].StabilizedPalmPosition);
-        //            palmCoordinates[leapNumber].Add(centersOfLeapmotion[leapNumber] +
-        //                                                        coordinatesOfPalm
-        //                                                        );
-        //        }
-        //    }
-        //    return palmCoordinates;
-        //}
-
-        //public List<List<Vector>> getWristCoordinates(List<Frame> listOfFrames, List<Vector> centersOfLeapmotion)
-        //{
-        //    List<List<Vector>> wristCoordinates = new List<List<Vector>>();
-
-        //    int numberOfLeaps = centersOfLeapmotion.Count;
-
-        //    for (int leapNumber = 0; leapNumber < numberOfLeaps; leapNumber++)
-        //    {
-        //        wristCoordinates.Add(new List<Vector>());
-
-        //        List<Hand> hands = listOfFrames[leapNumber].Hands;
-        //        int numberOfHands = hands.Count;
-
-        //        for (int handNumber = 0; handNumber < numberOfHands; handNumber++)
-        //        {
-        //            Vector coordinatesOfWrist = listOfFrames[leapNumber].
-        //                                                        InteractionBox.
-        //                                                        DenormalizePoint(
-        //                                                            hands[handNumber].WristPosition);
-
-        //            wristCoordinates[leapNumber].Add(centersOfLeapmotion[leapNumber] +
-        //                                                        coordinatesOfWrist
-        //                                                        );
-        //        }
-        //    }
-        //    return wristCoordinates;
-        //}
-
-        //// Gives back a single frame which integrates all the frames in the list
-        //public void integrate(List<Frame> listOfFrames, List<Vector> centersOfLeapmotion)
-        //{
-        //    // All frames need to be the same FPS
-        //    float currentFPS = listOfFrames[0].CurrentFramesPerSecond;
-
-        //    // I am assuming that the frames are from appriximately the same time
-        //    // This can be changed later
-        //    long timeStamp = listOfFrames[0].Timestamp;
-
-        //    // We now are working to get all hands from different frames and remove duplicates
-
-        //    // This will store the coordinates of all the hands relative to a global center
-        //    List<List<Vector>> palmCoordinates = getPalmCoordinates(listOfFrames, centersOfLeapmotion);
-        //    List<List<Vector>> wristCoordinates = getWristCoordinates(listOfFrames, centersOfLeapmotion);
-
-        //    // Closeness Parameter
-        //    float epsilon = 1;
-
-        //    List<Hand> newHands = new List<Hand>();
-        //    for (int leapNumber = 0; leapNumber < numberOfLeaps; leapNumber++)
-        //    {
-        //        for (int handNumber = 0; handNumber < palmCoordinates[leapNumber].Count; handNumber++)
-        //        {
-        //            bool alreadyPresent = false;
-
-        //            Hand thisHand = listOfFrames[leapNumber].Hands[handNumber];
-
-        //            for (int i = 0; i < newHands.Count; i++)
-        //            {
-        //                if(palmCoordinates[leapNumber][handNumber].DistanceTo(newHands[i].StabilizedPalmPosition) < epsilon)
-        //                {
-        //                    alreadyPresent = true;
-        //                    break;
-        //                }
-        //            }
-
-        //            if (!alreadyPresent)
-        //            {
-        //                newHands.Add(translateHand(thisHand, centersOfLeapmotion[leapNumber]));
-        //            }
-        //        }
-
-        //    }
-
-        //    // The new ID for the frame is going to be 1
-        //    // DEFINITLY NEED TO CHANGE THIS
-        //    long IDofFrame = 1;
-
-        //    // Need to make a new InteracionBox
-        //    InteractionBox integratedInteractionBox;
-        //}
+        // Merge frames from a list of frames
+        public Frame mergeFrames(List<Frame> listOfFrames)
+        {
+            Frame mergedFrame = new Frame();
+            return mergedFrame;
+        }
 
         // Need to implement all 18 functions for the controller in consolidated form
-        ConsolidatedController()
+        public ConsolidatedController()
         {
             return;
         }
 
-        ConsolidatedController(int connectionKey)
+        public ConsolidatedController(int connectionKey)
         {
             return;
         }
 
-        FailedDeviceList FailedDevices()
+        // What to do with this?
+        // this don't work yo
+        public new FailedDeviceList FailedDevices()
         {
-
+            FailedDeviceList failedList = new FailedDeviceList();
+            return failedList;
         }
+
+        public new Frame Frame(int history)
+        {
+            List<Frame> listOfFrames = new List<Frame>();
+
+            return mergeFrames(listOfFrames);
+        }
+
+        public void Frame(Frame toFill, int history)
+        {
+            return;
+        }
+
+        public new Frame Frame()
+        {
+            Frame newFrame = new Frame();
+            return newFrame;
+        }
+
+        public void Frame(Frame toFill)
+        {
+            return;
+        }
+
+        public long FrameTimestamp(int history = 0)
+        {
+            long timeStamp = 0;
+            return timeStamp;
+        }
+
+        public new Frame GetInterpolatedFrame(Int64 time)
+        {
+            Frame interpolatedFrame = new Leap.Frame();
+            return interpolatedFrame;
+        }
+
+        public new Frame GetTransformedFrame(LeapTransform trs, int history = 0)
+        {
+            Frame transformedFrame = new Leap.Frame();
+            return transformedFrame;
+        }
+
+        public new bool IsPolicySet(Controller.PolicyFlag policy)
+        {
+            bool isPolicySet = true;
+
+            return isPolicySet;
+        }
+
+        public new long Now()
+        {
+            long currentTimeStamp = 0;
+
+            return currentTimeStamp;
+        }
+
+        public new Image RequestImages(Int64 frameId, Image.ImageType type)
+        {
+            Image requestedImage = new Image();
+
+            return requestedImage;
+        }
+
+        public new Image RequestImages(Int64 frameId, Image.ImageType type, byte[] imageBuffer)
+        {
+            Image requestedImage = new Image();
+
+            return requestedImage;
+        }
+
+        public new void SetPolicy(Controller.PolicyFlag policy)
+        {
+            return;
+        }
+
+        public new void StartConnection()
+        {
+            return;
+        }
+
+        public new void StopConnection()
+        {
+            return;
+        }
+
     }    
 }
