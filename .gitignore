@@ -35,3 +35,6 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+# Leap Motion SDK 
+Leap_Motion_SDK_Windows_3.1.3/
