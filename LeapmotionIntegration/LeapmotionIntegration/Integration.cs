@@ -77,6 +77,7 @@ namespace LeapmotionIntegration
 
         // What to do with this?
         // this don't work yo
+        // TODO
         public new FailedDeviceList FailedDevices()
         {
             FailedDeviceList failedList = new FailedDeviceList();
@@ -91,6 +92,7 @@ namespace LeapmotionIntegration
                 return this.Frame();
         }
 
+        // TODO
         public void Frame(Frame toFill, int history)
         {
             return;
@@ -109,23 +111,27 @@ namespace LeapmotionIntegration
             return newFrame;
         }
 
+        // TODO
         public void Frame(Frame toFill)
         {
             return;
         }
 
+        // TODO
         public long FrameTimestamp(int history = 0)
         {
             long timeStamp = 0;
             return timeStamp;
         }
 
+        // TODO
         public new Frame GetInterpolatedFrame(Int64 time)
         {
             Frame interpolatedFrame = new Leap.Frame();
             return interpolatedFrame;
         }
 
+        // TODO
         public new Frame GetTransformedFrame(LeapTransform trs, int history = 0)
         {
             Frame transformedFrame = new Leap.Frame();
@@ -135,17 +141,20 @@ namespace LeapmotionIntegration
         public new bool IsPolicySet(Controller.PolicyFlag policy)
         {
             bool isPolicySet = true;
+            for(int i = 0; i < _listOfControllers.Count; i++)
+            {
+                isPolicySet &= _listOfControllers[i].IsPolicySet(policy);
+            }
 
             return isPolicySet;
         }
 
         public new long Now()
         {
-            long currentTimeStamp = 0;
-
-            return currentTimeStamp;
+            return _listOfControllers[0].Now();
         }
 
+        // TODO
         public new Image RequestImages(Int64 frameID, Image.ImageType type)
         {
             Image requestedImage = new Image();
@@ -153,6 +162,7 @@ namespace LeapmotionIntegration
             return requestedImage;
         }
 
+        // TODO
         public new Image RequestImages(Int64 frameID, Image.ImageType type, byte[] imageBuffer)
         {
             Image requestedImage = new Image();
@@ -162,16 +172,28 @@ namespace LeapmotionIntegration
 
         public new void SetPolicy(Controller.PolicyFlag policy)
         {
+            for(int i = 0; i < _listOfControllers.Count; i++)
+            {
+                _listOfControllers[i].SetPolicy(policy);
+            }
             return;
         }
 
         public new void StartConnection()
         {
+            for(int i = 0; i < _listOfControllers.Count; i++)
+            {
+                _listOfControllers[i].StartConnection();
+            }
             return;
         }
-
+        
         public new void StopConnection()
         {
+            for (int i = 0; i < _listOfControllers.Count; i++)
+            {
+                _listOfControllers[i].StopConnection();
+            }
             return;
         }
 
