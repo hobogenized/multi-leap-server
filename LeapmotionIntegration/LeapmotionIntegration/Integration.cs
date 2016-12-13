@@ -14,18 +14,48 @@ namespace LeapmotionIntegration
         List<Frame> _listOfFrames;
         long _numberOfFrames = 0;
 
-		static void Main()
+		public static void Main()
 		{
+            Image img = new Image();
+            Console.WriteLine(img.IsValid);
 		}
 
         public ConsolidatedController(List<Controller> listOfControllers)
         {
             _listOfControllers = listOfControllers;
+            _listOfFrames = new List<Frame>();
+        }
+
+        public ConsolidatedController()
+        {
+            return;
+        }
+
+        public ConsolidatedController(int connectionKey)
+        {
+            return;
         }
 
         Hand changeHandID(Hand hand, long frameID, int handID)
         {
-            Hand newHand = new Hand(frameID, handID, hand.Confidence, hand.GrabStrength, hand.GrabAngle, hand.PinchStrength, hand.PinchDistance, hand.PalmWidth, hand.IsLeft, hand.TimeVisible, hand.Arm, hand.Fingers, hand.PalmPosition, hand.StabilizedPalmPosition, hand.PalmVelocity, hand.PalmNormal, hand.Direction, hand.WristPosition);
+            Hand newHand = new Hand(frameID,
+                                    handID,
+                                    hand.Confidence,
+                                    hand.GrabStrength,
+                                    hand.GrabAngle,
+                                    hand.PinchStrength,
+                                    hand.PinchDistance,
+                                    hand.PalmWidth,
+                                    hand.IsLeft,
+                                    hand.TimeVisible,
+                                    hand.Arm,
+                                    hand.Fingers,
+                                    hand.PalmPosition,
+                                    hand.StabilizedPalmPosition,
+                                    hand.PalmVelocity,
+                                    hand.PalmNormal,
+                                    hand.Direction,
+                                    hand.WristPosition);
             return newHand;
         }
 
@@ -64,59 +94,26 @@ namespace LeapmotionIntegration
             Vector newSize = new Vector(maxX - minX, maxY - minY, maxZ - minZ);
             InteractionBox newBox = new InteractionBox(listOfFrames[0].InteractionBox.Center, newSize);
 
-            Frame mergedFrame = new Frame(frameID, listOfFrames[0].Timestamp, listOfFrames[0].CurrentFramesPerSecond, newBox, listOfHands);
+            long newTimeStamp = listOfFrames[0].Timestamp;
+            for(int i = 1; i < listOfFrames.Count; i++)
+            {
+                newTimeStamp = Math.Max(newTimeStamp, listOfFrames[i].Timestamp);
+            }
+
+            Frame mergedFrame = new Frame(frameID,
+                                          newTimeStamp,
+                                          listOfFrames[0].CurrentFramesPerSecond,
+                                          newBox,
+                                          listOfHands);
             return mergedFrame;
         }
 
-        // Need to implement all 18 functions for the controller in consolidated form
-
-        public void ClearPolicy(Controller.PolicyFlag policy)
-        {
-            return _listOfControllers[0].ClearPolicy(policy);
-        }
-
-        public Controller()
-        {
-            return _listOfControllers[0].Controller();
-        }
-
-        public Controller(int connectionKey)
-        {
-            return _listOfControllers[0].Controller(connectionKey);
-        }
-
-        // TODO
-        public new FailedDeviceList FailedDevices()
-        {
-            FailedDeviceList lst = new FailedDeviceList();
-            for(int i = 0; i < _listOfControllers.Count; i++)
-            {
-              lst.Concat(_listOfControllers[i].FailedDevices());
-            }
-            return lst.ToList();
-        }
-
-        public new Frame Frame(int history)
-        {
-            if (history > 0)
-                return _listOfFrames[_listOfFrames.Count - history];
-            else
-                return this.Frame();
-        }
-
-        // TODO
-        public void Frame(Frame toFill, int history)
-        {
-            if (history > 0)
-                _listOfFrames[_listOfFrames.Count - history](toFill);
-            else
-                this.Frame(toFill);
-        }
+        // Need to implement all 16 functions for the controller in consolidated form
 
         public new Frame Frame()
         {
             List<Frame> currentFrames = new List<Frame>();
-            for(int i = 0; i < _listOfControllers.Count; i++)
+            for (int i = 0; i < _listOfControllers.Count; i++)
             {
                 currentFrames.Add(_listOfControllers[i].Frame());
             }
@@ -126,35 +123,36 @@ namespace LeapmotionIntegration
             return newFrame;
         }
 
-        // how to fill?
-        // TODO
         public void Frame(Frame toFill)
         {
-            return this.Frame();
+            toFill = Frame();
         }
 
-        // TODO
+        public new Frame Frame(int history)
+        {
+            if (history > 0)
+                return _listOfFrames[_listOfFrames.Count - history];
+            else
+                return Frame();
+        }
+
+        public void Frame(Frame toFill, int history)
+        {
+            if (history > 0)
+                toFill = _listOfFrames[_listOfFrames.Count - history];
+            else
+                Frame(toFill);
+        }
+
         public long FrameTimestamp(int history = 0)
         {
-            return _listOfControllers[0].FrameTimestamp(history);
-        }
-
-        // TODO
-        public new Frame GetInterpolatedFrame(Int64 time)
-        {
-            return _connection.GetInterpolatedFrame(time);
-        }
-
-        // TODO
-        public new Frame GetTransformedFrame(LeapTransform trs, int history = 0)
-        {
-            return this.Frame(history).TransformedCopy(trs);
+            return _listOfFrames[_listOfFrames.Count - history - 1].Timestamp;
         }
 
         public new bool IsPolicySet(Controller.PolicyFlag policy)
         {
             bool isPolicySet = true;
-            for(int i = 0; i < _listOfControllers.Count; i++)
+            for (int i = 0; i < _listOfControllers.Count; i++)
             {
                 isPolicySet &= _listOfControllers[i].IsPolicySet(policy);
             }
@@ -162,27 +160,17 @@ namespace LeapmotionIntegration
             return isPolicySet;
         }
 
-        public new long Now()
+        public new void ClearPolicy(Controller.PolicyFlag policy)
         {
-            return _listOfControllers[0].Now();
-        }
-
-        // probably need to handle frameID
-        // TODO
-        public new Image RequestImages(Int64 frameID, Image.ImageType type)
-        {
-            return _connection.RequestImages(frameID, type);
-        }
-
-        // TODO
-        public new Image RequestImages(Int64 frameID, Image.ImageType type, byte[] imageBuffer)
-        {
-            return _connection.RequestImages(frameID, type, imageBuffer);
+            for (int i = 0; i < _listOfControllers.Count; i++)
+            {
+                _listOfControllers[i].ClearPolicy(policy);
+            }
         }
 
         public new void SetPolicy(Controller.PolicyFlag policy)
         {
-            for(int i = 0; i < _listOfControllers.Count; i++)
+            for (int i = 0; i < _listOfControllers.Count; i++)
             {
                 _listOfControllers[i].SetPolicy(policy);
             }
@@ -191,13 +179,13 @@ namespace LeapmotionIntegration
 
         public new void StartConnection()
         {
-            for(int i = 0; i < _listOfControllers.Count; i++)
+            for (int i = 0; i < _listOfControllers.Count; i++)
             {
                 _listOfControllers[i].StartConnection();
             }
             return;
         }
-        
+
         public new void StopConnection()
         {
             for (int i = 0; i < _listOfControllers.Count; i++)
@@ -207,5 +195,42 @@ namespace LeapmotionIntegration
             return;
         }
 
+        public new long Now()
+        {
+            return _listOfControllers[0].Now();
+        }
+
+        public new FailedDeviceList FailedDevices()
+        {
+            FailedDeviceList lst = new FailedDeviceList();
+            for(int i = 0; i < _listOfControllers.Count; i++)
+            {
+              lst.Concat(_listOfControllers[i].FailedDevices());
+            }
+            return lst;
+        }
+
+        // is an invalid image, maybe need to handle it at some point
+        public new Image RequestImages(Int64 frameID, Image.ImageType type)
+        {
+            return new Image();
+        }
+
+        // same problem as above
+        public new Image RequestImages(Int64 frameID, Image.ImageType type, byte[] imageBuffer)
+        {
+            return new Image();
+        }
+
+        public new Frame GetTransformedFrame(LeapTransform transform, int history = 0)
+        {
+            return Frame(history).TransformedCopy(transform);
+        }
+
+        // TODO
+        public new Frame GetInterpolatedFrame(Int64 time)
+        {
+            return _connection.GetInterpolatedFrame(time);
+        }
     }    
 }
