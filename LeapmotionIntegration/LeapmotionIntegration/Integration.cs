@@ -130,18 +130,12 @@ namespace LeapmotionIntegration
 
         public new Frame Frame(int history)
         {
-            if (history > 0)
-                return _listOfFrames[_listOfFrames.Count - history];
-            else
-                return Frame();
+            return _listOfFrames[_listOfFrames.Count - history - 1];
         }
 
         public void Frame(Frame toFill, int history)
         {
-            if (history > 0)
-                toFill = _listOfFrames[_listOfFrames.Count - history];
-            else
-                Frame(toFill);
+            toFill = _listOfFrames[_listOfFrames.Count - history - 1];
         }
 
         public long FrameTimestamp(int history = 0)
@@ -230,7 +224,7 @@ namespace LeapmotionIntegration
         // TODO
         public new Frame GetInterpolatedFrame(Int64 time)
         {
-            return _connection.GetInterpolatedFrame(time);
+            return _listOfControllers[0].GetInterpolatedFrame(time);
         }
     }    
 }
