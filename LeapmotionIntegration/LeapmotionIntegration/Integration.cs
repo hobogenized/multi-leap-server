@@ -14,6 +14,10 @@ namespace LeapmotionIntegration
         List<Frame> _listOfFrames;
         long _numberOfFrames = 0;
 
+		static void Main()
+		{
+		}
+
         public ConsolidatedController(List<Controller> listOfControllers)
         {
             _listOfControllers = listOfControllers;
@@ -65,23 +69,31 @@ namespace LeapmotionIntegration
         }
 
         // Need to implement all 18 functions for the controller in consolidated form
-        public ConsolidatedController()
+
+        public void ClearPolicy(Controller.PolicyFlag policy)
         {
-            return;
+            return _listOfControllers[0].ClearPolicy(policy);
         }
 
-        public ConsolidatedController(int connectionKey)
+        public Controller()
         {
-            return;
+            return _listOfControllers[0].Controller();
         }
 
-        // What to do with this?
-        // this don't work yo
+        public Controller(int connectionKey)
+        {
+            return _listOfControllers[0].Controller(connectionKey);
+        }
+
         // TODO
         public new FailedDeviceList FailedDevices()
         {
-            FailedDeviceList failedList = new FailedDeviceList();
-            return failedList;
+            FailedDeviceList lst = new FailedDeviceList();
+            for(int i = 0; i < _listOfControllers.Count; i++)
+            {
+              lst.Concat(_listOfControllers[i].FailedDevices());
+            }
+            return lst.ToList();
         }
 
         public new Frame Frame(int history)
@@ -95,7 +107,10 @@ namespace LeapmotionIntegration
         // TODO
         public void Frame(Frame toFill, int history)
         {
-            return;
+            if (history > 0)
+                _listOfFrames[_listOfFrames.Count - history](toFill);
+            else
+                this.Frame(toFill);
         }
 
         public new Frame Frame()
@@ -111,31 +126,29 @@ namespace LeapmotionIntegration
             return newFrame;
         }
 
+        // how to fill?
         // TODO
         public void Frame(Frame toFill)
         {
-            return;
+            return this.Frame();
         }
 
         // TODO
         public long FrameTimestamp(int history = 0)
         {
-            long timeStamp = 0;
-            return timeStamp;
+            return _listOfControllers[0].FrameTimestamp(history);
         }
 
         // TODO
         public new Frame GetInterpolatedFrame(Int64 time)
         {
-            Frame interpolatedFrame = new Leap.Frame();
-            return interpolatedFrame;
+            return _connection.GetInterpolatedFrame(time);
         }
 
         // TODO
         public new Frame GetTransformedFrame(LeapTransform trs, int history = 0)
         {
-            Frame transformedFrame = new Leap.Frame();
-            return transformedFrame;
+            return this.Frame(history).TransformedCopy(trs);
         }
 
         public new bool IsPolicySet(Controller.PolicyFlag policy)
@@ -154,20 +167,17 @@ namespace LeapmotionIntegration
             return _listOfControllers[0].Now();
         }
 
+        // probably need to handle frameID
         // TODO
         public new Image RequestImages(Int64 frameID, Image.ImageType type)
         {
-            Image requestedImage = new Image();
-
-            return requestedImage;
+            return _connection.RequestImages(frameID, type);
         }
 
         // TODO
         public new Image RequestImages(Int64 frameID, Image.ImageType type, byte[] imageBuffer)
         {
-            Image requestedImage = new Image();
-
-            return requestedImage;
+            return _connection.RequestImages(frameID, type, imageBuffer);
         }
 
         public new void SetPolicy(Controller.PolicyFlag policy)
