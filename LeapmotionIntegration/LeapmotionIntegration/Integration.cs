@@ -120,6 +120,10 @@ namespace LeapmotionIntegration
             Frame newFrame = mergeFrames(currentFrames, _numberOfFrames);
             _numberOfFrames += 1;
             _listOfFrames.Add(newFrame);
+            while(_listOfFrames.Count > 100)
+            {
+                _listOfFrames.RemoveAt(0);
+            }
             return newFrame;
         }
 
@@ -221,10 +225,19 @@ namespace LeapmotionIntegration
             return Frame(history).TransformedCopy(transform);
         }
 
-        // TODO
         public new Frame GetInterpolatedFrame(Int64 time)
         {
-            return _listOfControllers[0].GetInterpolatedFrame(time);
+            long closestTimestamp = _listOfFrames[0].Timestamp;
+            int closestFrameIndex = 0;
+            for(int i = 1; i < _listOfFrames.Count; i++)
+            {
+                if(Math.Abs(closestTimestamp - time) > Math.Abs(_listOfFrames[i].Timestamp - time))
+                {
+                    closestTimestamp = _listOfFrames[i].Timestamp;
+                    closestFrameIndex = i;
+                }
+            }
+            return _listOfFrames[closestFrameIndex];
         }
     }    
 }
