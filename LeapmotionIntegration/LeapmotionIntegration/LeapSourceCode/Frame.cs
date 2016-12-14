@@ -27,6 +27,7 @@ namespace Leap
    * Implement a Listener subclass to receive a callback event when a new Frame is available.
    * @since 1.0
    */
+    [Serializable]
   public class Frame:
     IEquatable<Frame>
   {

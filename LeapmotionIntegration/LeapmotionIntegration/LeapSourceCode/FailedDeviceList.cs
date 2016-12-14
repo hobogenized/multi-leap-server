@@ -22,6 +22,7 @@ namespace Leap
    * @since 3.0
    */
 
+    [Serializable]
   public class FailedDeviceList : List<FailedDevice>
   {
     /**

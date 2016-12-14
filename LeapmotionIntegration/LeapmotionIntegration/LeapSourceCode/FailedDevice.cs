@@ -27,6 +27,7 @@ namespace Leap
    */
 
   //TODO Implement FailedDevices
+    [Serializable]
   public class FailedDevice:
     IEquatable<FailedDevice>
   {
