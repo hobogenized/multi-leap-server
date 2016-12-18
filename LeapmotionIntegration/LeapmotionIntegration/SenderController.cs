@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Leap;
 using System.Xml.Serialization;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 namespace LeapmotionIntegration
 {
     class SenderController : Controller
@@ -16,14 +18,21 @@ namespace LeapmotionIntegration
         TcpListener l;
         TcpClient client;
         NetworkStream receiveStream;
+        StreamReader r;
+        StreamWriter w;
+        IFormatter binFormatter;
         public SenderController()
         {
             _localController = new Controller();
             l = new TcpListener(IPAddress.Any, 80);
             l.Start();
+            Console.WriteLine("Waiting for client...");
             client = l.AcceptTcpClient();
             Console.WriteLine("Accepted client.");
             receiveStream = client.GetStream();
+            r = new StreamReader(receiveStream);
+            w = new StreamWriter(receiveStream, Encoding.UTF8);
+            binFormatter = new BinaryFormatter();
             if (!receiveStream.CanRead)
             {
                 Console.WriteLine("Can't read");
@@ -36,22 +45,23 @@ namespace LeapmotionIntegration
         }
         ~SenderController()
         {
+            w.Close();
+            r.Close();
             receiveStream.Close();
             client.Close();
         }
         public void Run()
         {
-            StreamReader r = new StreamReader(receiveStream);
             bool running = true;
             while (running)
             {
+                if (r.EndOfStream) continue;
                 String read = r.ReadLine();
                 Console.WriteLine("Read a line: " + read);
                 Controller.PolicyFlag p = Controller.PolicyFlag.POLICY_DEFAULT;
                 if (read.Contains("Policy"))
                 {
-                    XmlSerializer mySerializer = new XmlSerializer(typeof(Controller.PolicyFlag));
-                    p = (Controller.PolicyFlag)mySerializer.Deserialize(receiveStream);
+                    p = (Controller.PolicyFlag)binFormatter.Deserialize(receiveStream);
                 }
                 switch (read)
                 {
@@ -84,28 +94,26 @@ namespace LeapmotionIntegration
                         break;
                 }
             }
-            r.Close();
         }
         public void sendMessage(String message)
         {
             try
             {
-                StreamWriter w = new StreamWriter(receiveStream, Encoding.UTF8);
                 w.WriteLine(message);
                 w.Flush();
-                w.Close();
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
             }
         }
         public new Frame Frame()
         {
             var data = _localController.Frame();
-            XmlSerializer mySerializer = new XmlSerializer(typeof(Frame));
-            StreamWriter myWriter = new StreamWriter(receiveStream);
-            mySerializer.Serialize(myWriter, data);
-            myWriter.Close();
+            var sendData = new SerializableFrame(data);
+            Console.WriteLine("Begin serialize");
+            binFormatter.Serialize(receiveStream, sendData);
+            Console.WriteLine("Serialized");
             return data;
         }
         public void Frame(Frame toFill)
@@ -116,10 +124,8 @@ namespace LeapmotionIntegration
         public new Frame Frame(int history)
         {
             var data = _localController.Frame(history);
-            XmlSerializer mySerializer = new XmlSerializer(typeof(Frame));
-            StreamWriter myWriter = new StreamWriter(receiveStream);
-            mySerializer.Serialize(myWriter, data);
-            myWriter.Close();
+            var sendData = new SerializableFrame(data);
+            binFormatter.Serialize(receiveStream, sendData);
             return data;
         }
         public void Frame(Frame toFill, int history)

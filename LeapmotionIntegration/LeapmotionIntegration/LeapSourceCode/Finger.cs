@@ -112,10 +112,10 @@ namespace Leap
         i.AddValue("length", Length, typeof(float));
         i.AddValue("isExtended", IsExtended, typeof(bool));
         i.AddValue("type", Type, typeof(Type));
-        Bone metacarpal,
+        /*Bone metacarpal,
         Bone proximal,
         Bone intermediate,
-        Bone distal
+        Bone distal*/
     }
 
     /**
