@@ -10,6 +10,7 @@ namespace Leap
   using System;
   using System.Collections.Generic;
   using System.Runtime.InteropServices;
+    using System.Runtime.Serialization;
 
   /**
    * The Bone class represents a tracked bone.
@@ -75,6 +76,30 @@ namespace Leap
       Length = length;
       Width = width;
       Type = type;
+    }
+
+    public void GetObjectData(SerializationInfo info, StreamingContext context)
+    {
+        info.AddValue("pJoint", PrevJoint, typeof(Vector));
+        info.AddValue("nJoint", NextJoint, typeof(Vector));
+        info.AddValue("center", Center, typeof(Vector));
+        info.AddValue("direction", Direction, typeof(Vector));
+        info.AddValue("length", Length, typeof(float));
+        info.AddValue("width", Width, typeof(float));
+        info.AddValue("rotation", Rotation, typeof(LeapQuaternion));
+        info.AddValue("type", Type, typeof(Bone.BoneType));
+    }
+
+    public Bone(SerializationInfo info, StreamingContext context)
+    {
+        PrevJoint = (Vector)info.GetValue("pJoint", typeof(Vector));
+        NextJoint = (Vector)info.GetValue("nJoint", typeof(Vector));
+        Center = (Vector)info.GetValue("center", typeof(Vector));
+        Direction = (Vector)info.GetValue("direction", typeof(Vector));
+        Rotation = (LeapQuaternion)info.GetValue("rotation", typeof(LeapQuaternion));
+        Length = (float)info.GetValue("length", typeof(float));
+        Width = (float)info.GetValue("width", typeof(float));
+        Type = (Bone.BoneType)info.GetValue("bonetype", typeof(Type));
     }
 
     /**

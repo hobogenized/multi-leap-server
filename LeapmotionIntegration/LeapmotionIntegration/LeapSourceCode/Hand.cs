@@ -10,6 +10,7 @@ namespace Leap
   using System;
   using System.Collections.Generic;
   using System.Runtime.InteropServices;
+    using System.Runtime.Serialization;
 
   /**
    * The Hand class reports the physical characteristics of a detected hand.
@@ -30,6 +31,7 @@ namespace Leap
    * Test for validity with the Hand::isValid() function.
    * @since 1.0
    */
+    [Serializable]
   public class Hand
   {
     /**

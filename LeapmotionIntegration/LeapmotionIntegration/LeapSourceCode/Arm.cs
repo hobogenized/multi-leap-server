@@ -9,11 +9,13 @@ namespace Leap
 {
   using System;
   using System.Runtime.InteropServices;
+    using System.Runtime.Serialization;
 
   /**
    * The Arm class represents the forearm.
    *
    */
+    [Serializable]
   public class Arm : Bone
   {
     /**
@@ -55,6 +57,15 @@ namespace Leap
                         BoneType.TYPE_METACARPAL, //ignored for arms
                         rotation)
     { }
+
+    public void GetObjectData(SerializationInfo info, StreamingContext context) 
+    {
+        base.GetObjectData(info, context);
+    }
+
+    public Arm(SerializationInfo info, StreamingContext context) : base(info, context)
+    {
+    }
 
     /**
      * Creates a copy of this arm, transformed by the specified transform.

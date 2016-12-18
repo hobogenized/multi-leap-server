@@ -9,6 +9,7 @@ namespace Leap
 {
   using System;
   using System.Runtime.InteropServices;
+    using System.Runtime.Serialization;
 
   /**
    * The Finger class represents a tracked finger.
@@ -24,6 +25,7 @@ namespace Leap
    * will be discontinuous unless they have a corresponding ID exchange.
    * @since 1.0
    */
+    [Serializable]
   public class Finger
   {
     Bone[] _bones = new Bone[4];
@@ -94,6 +96,26 @@ namespace Leap
       IsExtended = isExtended;
       StabilizedTipPosition = stabilizedTipPosition;
       TimeVisible = timeVisible;
+    }
+
+    public void GetObjectData(SerializationInfo i, StreamingContext c)
+    {
+        i.AddValue("frameId", _frameId, typeof(long));
+        i.AddValue("handId", HandId, typeof(int));
+        i.AddValue("fingerId", Id, typeof(int));
+        i.AddValue("timeVisible", TimeVisible, typeof(float));
+        i.AddValue("tipPosition", TipPosition, typeof(Vector));
+        i.AddValue("tipVelocity", TipVelocity, typeof(Vector));
+        i.AddValue("direction", Direction, typeof(Vector));
+        i.AddValue("stabilizedTipPosition", StabilizedTipPosition, typeof(Vector));
+        i.AddValue("width", Width, typeof(float));
+        i.AddValue("length", Length, typeof(float));
+        i.AddValue("isExtended", IsExtended, typeof(bool));
+        i.AddValue("type", Type, typeof(Type));
+        Bone metacarpal,
+        Bone proximal,
+        Bone intermediate,
+        Bone distal
     }
 
     /**

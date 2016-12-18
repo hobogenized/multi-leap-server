@@ -12,6 +12,7 @@ namespace Leap
   using System;
   using System.Collections.Generic;
   using System.Runtime.InteropServices;
+    using System.Runtime.Serialization;
 
   /**
    * The Frame class represents a set of hand and finger tracking data detected
@@ -70,6 +71,15 @@ namespace Leap
       CurrentFramesPerSecond = fps;
       InteractionBox = interactionBox;
       Hands = hands;
+    }
+
+    public Frame(SerializationInfo info, StreamingContext context)
+    {
+        Hands = (List<Hand>) info.GetValue("hands",  typeof(List<Hand>));
+        InteractionBox = (InteractionBox) info.GetValue("interactionbox", typeof(InteractionBox));
+        Timestamp = (long) info.GetValue("timestamp", typeof(long));
+        Id = (long) info.GetValue("id", typeof(long));
+        CurrentFramesPerSecond = (float) info.GetValue("fps", typeof(float));
     }
 
     /**
@@ -266,6 +276,15 @@ namespace Leap
     public int SerializeLength
     {
       get { return 0; }
+    }
+
+    public void GetObjectData(SerializationInfo info, StreamingContext context)
+    {
+        info.AddValue("hands", Hands, typeof(List<Hand>));
+        info.AddValue("interactionbox", InteractionBox, typeof(InteractionBox));
+        info.AddValue("timestamp", Timestamp, typeof(long));
+        info.AddValue("id", Id, typeof(long));
+        info.AddValue("fps", CurrentFramesPerSecond, typeof(float));
     }
   }
 }
