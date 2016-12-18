@@ -14,30 +14,38 @@ namespace LeapmotionIntegration
     {
         TcpClient conn;
         Stream stream;
+        StreamWriter w;
+        StreamReader r;
 
         public ReceiverController(String ip, int port)
         {
+            conn = new TcpClient();
+            conn.ReceiveTimeout = 100;
+            conn.SendTimeout = 100;
             conn.Connect(ip, port);
             stream = conn.GetStream();
+            w = new StreamWriter(stream, Encoding.UTF8);
+            r = new StreamReader(stream);
         }
 
         ~ReceiverController()
         {
-            conn.Close();
+            w.Close();
+            r.Close();
             stream.Close();
+            conn.Close();
         }
 
         public void sendMessage(String message)
         {
             try
             {
-                StreamWriter w = new StreamWriter(stream, Encoding.UTF8);
                 w.WriteLine(message);
-                w.Close();
+                w.Flush();
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -54,10 +62,8 @@ namespace LeapmotionIntegration
             sendMessage("IsPolicySet");
               
             XmlSerializer mySerializer = new XmlSerializer(typeof(Controller.PolicyFlag));
-            StreamWriter myWriter = new StreamWriter(stream);
-            mySerializer.Serialize(myWriter, policy);
-            myWriter.Close();
-            StreamReader r = new StreamReader(stream);
+            
+            mySerializer.Serialize(w, policy);
             return Boolean.Parse(r.ReadLine());
         }
 
@@ -66,9 +72,7 @@ namespace LeapmotionIntegration
             sendMessage("SetPolicy");
              
             XmlSerializer mySerializer = new XmlSerializer(typeof(Controller.PolicyFlag));
-            StreamWriter myWriter = new StreamWriter(stream);
-            mySerializer.Serialize(myWriter, policy);
-            myWriter.Close();
+            mySerializer.Serialize(w, policy);
         }
 
         public new void ClearPolicy(Controller.PolicyFlag policy)
@@ -76,9 +80,7 @@ namespace LeapmotionIntegration
             sendMessage("ClearPolicy");
         
             XmlSerializer mySerializer = new XmlSerializer(typeof(Controller.PolicyFlag));
-            StreamWriter myWriter = new StreamWriter(stream);
-            mySerializer.Serialize(myWriter, policy);
-            myWriter.Close();
+            mySerializer.Serialize(w, policy);
         }
 
         public new void StartConnection()
@@ -94,7 +96,6 @@ namespace LeapmotionIntegration
         public new long Now()
         {
             sendMessage("Now");
-            StreamReader r = new StreamReader(stream);
             return Convert.ToInt64(r.ReadLine());
         }
     }
