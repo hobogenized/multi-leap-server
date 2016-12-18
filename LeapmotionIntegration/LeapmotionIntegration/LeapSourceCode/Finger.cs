@@ -161,7 +161,7 @@ namespace Leap
      * enumeration.
      * @since 2.0
      */
-    public Finger.FingerType Type { get; private set; }
+    public Finger.FingerType Type { get; set; }
 
     /**
      * A unique ID assigned to this Finger object, whose value remains the
@@ -181,7 +181,7 @@ namespace Leap
      * @returns The ID assigned to this Finger object.
      * @since 1.0
      */
-    public int Id { get; private set; }
+    public int Id { get; set; }
 
     /**
      * The Hand associated with a finger.
@@ -195,7 +195,7 @@ namespace Leap
      * an invalid Hand object is returned.
      * @since 1.0
      */
-    public int HandId { get; private set; }
+    public int HandId { get; set; }
 
     /**
      * The tip position in millimeters from the Leap Motion origin.
@@ -205,7 +205,7 @@ namespace Leap
      * @returns The Vector containing the coordinates of the tip position.
      * @since 1.0
      */
-    public Vector TipPosition { get; private set; }
+    public Vector TipPosition { get; set; }
 
     /**
      * The rate of change of the tip position in millimeters/second.
@@ -215,7 +215,7 @@ namespace Leap
      * @returns The Vector containing the coordinates of the tip velocity.
      * @since 1.0
      */
-    public Vector TipVelocity { get; private set; }
+    public Vector TipVelocity { get; set; }
 
     /**
      * The direction in which this finger or tool is pointing.
@@ -231,7 +231,7 @@ namespace Leap
      * Finger object.
      * @since 1.0
      */
-    public Vector Direction { get; private set; }
+    public Vector Direction { get; set; }
 
     /**
      * The estimated width of the finger or tool in millimeters.
@@ -241,7 +241,7 @@ namespace Leap
      * @returns The estimated width of this Finger object.
      * @since 1.0
      */
-    public float Width { get; private set; }
+    public float Width { get; set; }
 
     /**
      * The estimated length of the finger or tool in millimeters.
@@ -251,7 +251,7 @@ namespace Leap
      * @returns The estimated length of this Finger object.
      * @since 1.0
      */
-    public float Length { get; private set; }
+    public float Length { get; set; }
 
     /**
      * Whether or not this Finger is in an extended posture.
@@ -265,7 +265,7 @@ namespace Leap
      * @returns True, if the pointable is extended.
      * @since 2.0
      */
-    public bool IsExtended { get; private set; }
+    public bool IsExtended { get; set; }
 
     /**
      * The stabilized tip position of this Finger.
@@ -281,7 +281,7 @@ namespace Leap
      * with some additional smoothing and stabilization applied.
      * @since 1.0
      */
-    public Vector StabilizedTipPosition { get; private set; }
+    public Vector StabilizedTipPosition { get; set; }
 
     /**
      * The duration of time this Finger has been visible to the Leap Motion Controller.
@@ -291,7 +291,7 @@ namespace Leap
      * @returns The duration (in seconds) that this Finger has been tracked.
      * @since 1.0
      */
-    public float TimeVisible { get; private set; }
+    public float TimeVisible { get; set; }
 
     /**
      * Enumerates the names of the fingers.

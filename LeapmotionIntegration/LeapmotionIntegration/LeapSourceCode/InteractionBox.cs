@@ -27,6 +27,7 @@ namespace Leap
    * Get an InteractionBox object from a Frame object.
    * @since 1.0
    */
+    [Serializable]
   public class InteractionBox
   {
     public InteractionBox()

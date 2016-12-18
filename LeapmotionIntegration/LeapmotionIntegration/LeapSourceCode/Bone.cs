@@ -26,6 +26,7 @@ namespace Leap
    * zero length bone at that location.
    * @since 2.0
    */
+    [Serializable]
   public class Bone
   {
     /**
@@ -129,7 +130,7 @@ namespace Leap
      * @returns The Vector containing the coordinates of the previous joint position.
      * @since 2.0
      */
-    public Vector PrevJoint { get; private set; }
+    public Vector PrevJoint { get; set; }
 
     /**
      * The end of the bone, closest to the finger tip.
@@ -141,7 +142,7 @@ namespace Leap
      * @returns The Vector containing the coordinates of the next joint position.
      * @since 2.0
      */
-    public Vector NextJoint { get; private set; }
+    public Vector NextJoint { get; set; }
 
     /**
      * The midpoint of the bone.
@@ -151,7 +152,7 @@ namespace Leap
      * @returns The midpoint in the center of the bone.
      * @since 2.0
      */
-    public Vector Center { get; private set; }
+    public Vector Center { get; set; }
 
     /**
      * The normalized direction of the bone from base to tip.
@@ -161,7 +162,7 @@ namespace Leap
      * @returns The normalized direction of the bone from base to tip.
      * @since 2.0
      */
-    public Vector Direction { get; private set; }
+    public Vector Direction { get; set; }
 
     /**
      * The estimated length of the bone in millimeters.
@@ -171,7 +172,7 @@ namespace Leap
      * @returns The length of the bone in millimeters.
      * @since 2.0
      */
-    public float Length { get; private set; }
+    public float Length { get; set; }
 
     /**
      * The average width of the flesh around the bone in millimeters.
@@ -181,7 +182,7 @@ namespace Leap
      * @returns The width of the flesh around the bone in millimeters.
      * @since 2.0
      */
-    public float Width { get; private set; }
+    public float Width { get; set; }
 
     /**
      * The name of this bone.
@@ -192,7 +193,7 @@ namespace Leap
      * enumeration.
      * @since 2.0
      */
-    public Bone.BoneType Type { get; private set; }
+    public Bone.BoneType Type { get; set; }
 
     /**
      * The orientation of this Bone as a Quaternion.
@@ -200,7 +201,7 @@ namespace Leap
      * @returns The Quaternion.
      * @since 2.0
      */
-    public LeapQuaternion Rotation { get; private set; }
+    public LeapQuaternion Rotation { get; set; }
 
     /**
      * The orthonormal basis vectors for this Bone as a Matrix.

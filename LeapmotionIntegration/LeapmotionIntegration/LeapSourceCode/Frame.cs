@@ -211,7 +211,7 @@ namespace Leap
      * @returns The frame ID.
      * @since 1.0
      */
-    public long Id { get; private set; }
+    public long Id { get; set; }
 
     /**
      * The frame capture time in microseconds elapsed since an arbitrary point in
@@ -224,7 +224,7 @@ namespace Leap
      * @returns The timestamp in microseconds.
      * @since 1.0
      */
-    public long Timestamp { get; private set; }
+    public long Timestamp { get;  set; }
 
     /**
      * The instantaneous framerate.
@@ -239,7 +239,7 @@ namespace Leap
      * @returns An estimate of frames per second of the Leap Motion Controller.
      * @since 1.0
      */
-    public float CurrentFramesPerSecond { get; private set; }
+    public float CurrentFramesPerSecond { get;  set; }
 
     /**
      * The list of Hand objects detected in this frame, given in arbitrary order.
@@ -261,7 +261,7 @@ namespace Leap
      * @returns The current InteractionBox object.
      * @since 1.0
      */
-    public InteractionBox InteractionBox { get; private set; }
+    public InteractionBox InteractionBox { get;  set; }
 
     public int SerializeLength
     {
